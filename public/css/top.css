@@ -1,0 +1,10 @@
+html {
+    font-size: 62.5%;
+    font-family: "Avenir Next"
+}
+.button {
+    width: 100%;
+    font-size: 3.0rem;
+    text-align:  center;
+    margin:0 auto;
+}

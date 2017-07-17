@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang ="ja" >
+    <head>
+        <meta charset = "UTF-8" >
+        <title>Hackathon</title>
+        <link rel="stylesheet" type="text/css" href="css/day.css"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <style>
+            /*ヘッダー、フッター用*/
+            @import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300);
+            body {
+                font-family: 'Source Sans Pro', sans-serif;
+            }
+            .main{
+                margin-top: 100px;
+                margin-bottom: 80px;
+                width: 100%;
+                
+            }
+            .header {
+                overflow: auto;
+                background-color:#ffd700;
+                color: white;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                text-align: center;
+                z-index:1;
+            }	
+            .header-logo {
+                display: block;
+                text-align: center;
+                font-size: 70px;
+                margin: 0 auto;
+                padding: 10px 16px;
+            }
+            .header-list ul{
+                list-style-type: none;
+                text-align: center;
+                margin: 0;
+                padding: 0;
+            }
+
+            .header-list li {
+                display: inline-block;
+            }
+            .header-list li a {
+                display: block;
+                position: relative;
+                color: white;
+                text-decoration: none;
+                width: 20%;
+                padding: 10px 30px;
+                font-size: 70px;
+            }
+            .footer {
+                width: 100%;
+                overflow: auto;
+                position: fixed;
+                background-color: #ffd700;
+                bottom: 0;
+                left: 0;
+            }
+            .footer a, #event {
+                float: left;
+                text-align: center;
+                width: 25%;
+                padding: 10px 0;
+                color: white;
+                font-size: 70px;
+            }
+            /*ヘッダー、フッター用おわり*/
+            
+            
+           
+        </style>
+        
+    </head>
+    <body>
+      <div class="header">
+                
+                <div class="header-list">
+                    <ul>
+                        <li style="float: left;"><a href="/signout"><i class="fa fa-sign-out" aria-hidden="true"></i></a></li>
+                        <li class="header-logo">EATOMO</li>
+                        <li style="float: right;"><a href="/home"><i class="fa fa-user-circle-o" aria-hidden="true"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+
+
+
+
+        <div class="main">
+        <h2><%= params[:year] %>/<%= params[:month] %>/<%= params[:day] %></h2>
+        <% if @contributions != "" %>
+            <% @contributions.each do |contribution| %>
+                <p><a href="<%= contribution.rest_url %>"><%= contribution.rest_name %></a></p>
+                <img src="<%= contribution.rest_img %>">
+                <p>誰と行った:<%= contribution.who %></p>
+                <p>メモ:<%= contribution.memo %></p>
+            <% end %>
+        <% else %>
+            <p>ログはありません</p>
+            <a href="/new">ログを投稿</a>
+        <% end %>
+        </div>
+        
+        
+        <div class="footer">
+              <a href="/search"><i class="fa fa-search" aria-hidden="true"></i></a>
+              <a href="/general"><i class="fa fa-clock-o" aria-hidden="true"></i></a>
+              <a href="/new"><i class="fa fa-cutlery" aria-hidden="true"></i></a>
+              <i id="event" class="fa fa-exclamation-circle" aria-hidden="true"></i>
+        
+    </div>
+
+     
+    </body>
+</html>

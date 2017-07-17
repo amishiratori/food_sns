@@ -1,0 +1,234 @@
+<! DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>Hackathon</title>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <style>
+        @import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300);
+        *{
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-weight: 300;
+        }
+        body{
+            font-family: 'Source Sans Pro', sans-serif;
+            color: white;
+        }
+        .wrapper{
+	        background:#ffd700;
+            
+	
+	        position: absolute;
+	        top: 30%;
+	        left: 0;
+	        width: 100%;
+    	    margin-top: -200px;
+	        overflow: hidden;
+	        
+        }
+        .container{
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 80px 0;
+            text-align: center;
+        }
+        h1 {
+            font-size: 50px;
+        }
+        p {
+            font-size: 30px;
+            margin: 0 auto 50px auto;
+        }
+        form{
+            padding: 20px 0;
+            position: relative;
+            z-index: 2;
+        }
+        input[type="text"], input[type="password"]{
+            
+            display: block; 
+            outline: 0;
+            border: 1px solid white;
+            background-color: white;
+            opacity:　0.8;
+            width: 500px;
+            border-radius: 15px;
+            padding: 30px 15px;
+            margin: 0 auto 10px auto;
+            display: block;
+            text-align: center;
+            font-size: 50px;
+            color:#ffd700;
+            transition-duration: 0.25s;
+            font-weight: 300;
+            font-family: 'Source Sans Pro', sans-serif;
+        }
+        .imgInput{
+            position: relative;
+        }
+        .file {
+            display: block;
+            overflow: hidden;
+            position: relative;
+            max-width: 300px;
+            margin: 5px auto 50px auto;
+            border-radius: 15px;
+            padding: 5px 5px;
+            border: 2px solid white;
+            background-color:  #ffd700;
+            font-size: 30px;
+            font-family: 'Source Sans Pro', sans-serif
+            
+        }
+
+        .file input[type="file"] {
+            opacity: 0;
+            filter: progid:DXImageTransform.Microsoft.Alpha(opacity=0);
+            position: absolute;
+            right: 0;
+            top: 0;
+            margin: 0;
+            font-size: 100px;
+            cursor: pointer;
+        }
+        img {
+            width: 400px;
+            height: auto;
+        }
+        
+        input[type="text"]:focus, input[type="password"]:focus{
+            background-color:#ffd700;
+            width: 700px;
+            color: white;
+            
+        }
+        input[type="text"]::-webkit-input-placeholder, input[type="password"]::-webkit-input-placeholder { /* WebKit browsers */
+		    font-family: 'Source Sans Pro', sans-serif;
+			color:   #ffd700;
+		    font-weight: 300;
+	    }
+	    input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder{ /* Mozilla Firefox 4 to 18 */
+		    font-family: 'Source Sans Pro', sans-serif;
+		     color:   #ffd700;
+		     opacity:  1;
+		    font-weight: 300;
+	    }
+	    input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder{ /* Mozilla Firefox 19+ */
+		    font-family: 'Source Sans Pro', sans-serif;
+		    color:   #ffd700;
+		    opacity:  1;
+		    font-weight: 300;
+	    }
+        input[type="text"]:-ms-input-placeholder, input[type="password"]:-ms-input-placeholder { /* Internet Explorer 10+ */
+		    font-family: 'Source Sans Pro', sans-serif;
+		    color:  #ffd700;
+		    font-weight: 300;
+        }
+        input[type="submit"] {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            outline: 0;
+            background-color: #ffd700;
+            border: 0;
+            padding: 10px 15px;
+            margin: 40 auto 10px auto;
+            color: white;
+            border-radius: 15px;
+            width: 500px;
+            cursor: pointer;
+            font-size: 50px;
+            transition-duration: 0.25s;
+            border: 2px solid white;
+        }
+        
+    </style>
+</head>
+
+<body>
+   <div class="wrapper">
+    <div class="container">
+    <form action="/signup" method="post" enctype="multipart/form-data">
+        <div>
+            <h1>新規登録</h1>
+            <p>全項目入力必須</p>
+            <div class="signup">
+                <input type ="text" name="name" class="name" placeholder="名前を入力"/><br>
+                <input type ="text" name="user_id" class="user_id" placeholder="ユーザーIDを入力"/><div id="user_id"></div><br>
+                <div class="imgInput">
+                    <img src="img/no.png" alt="USER" class="imgView">
+                    <div class="file">
+                        アイコン画像を選択
+                        <input type="file" name="user_img" accept="image/*" class="user_img"><br>
+                    </div>
+                </div>
+                <input name="password" type="password" class="password" placeholder="パスワードを入力"/><div id="password"></div><br>
+                <input name="password_confirmation" type="password" placeholder="パスワードを再入力"/><br>
+            </div>
+            <div>
+                <input type="submit" value="登録">
+            </div>
+        </div>
+    </form>
+    <% if @errors.present? %>
+        <% @errors.each do |error| %>
+            <p><%= error %></p>
+        <% end %>
+    <% end %>
+    </div>
+    </div>
+    <script>
+         window.onload = function() {
+             $(".user_id").click(function() {
+                 $(".signup #user_id").text("他ユーザーと重複不可・英数字のみ");
+             });
+             $(".password").click(function (){
+                 $(".signup #password").text("必須・大文字小文字数字（半角）必ず一つずつ含む・8文字以上");
+             });
+         }
+    </script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script>
+        $(function(){
+            var setFileInput = $('.imgInput');
+ 
+            setFileInput.each(function(){
+                var selfFile = $(this),
+                selfInput = $(this).find('input[type=file]');
+ 
+                selfInput.change(function(){
+                    var file = $(this).prop('files')[0],
+                    fileRdr = new FileReader(),
+                    selfImg = selfFile.find('.imgView');
+ 
+                    if(!this.files.length){
+                        if(0 < selfImg.size()){
+                            selfImg.remove();
+                            return;
+                        }
+                    } else {
+                        if(file.type.match('image.*')){
+                            if(!(0 < selfImg.size())){
+                                selfFile.append('<img alt="" class="imgView">');
+                            }
+                            var prevElm = selfFile.find('.imgView');
+                            fileRdr.onload = function() {
+                                prevElm.attr('src', fileRdr.result);
+                            }
+                            fileRdr.readAsDataURL(file);
+                        } else {
+                            if(0 < selfImg.size()){
+                                selfImg.remove();
+                                return;
+                            }
+                        }
+                    }
+                });
+            });
+        });
+        </script>
+    
+</body>
+</html>

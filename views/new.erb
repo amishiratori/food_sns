@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang ="ja" >
+    <head>
+        <meta charset = "UTF-8" >
+        <title>Hackathon</title>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <style>
+            /*ヘッダー、フッター用*/
+            @import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300);
+            body {
+                font-family: 'Source Sans Pro', sans-serif;
+            }
+            .main{
+                margin-top: 130px;
+                margin-bottom: 130px;
+                width: 100%;
+                font-size: 40px;
+                color: #888;
+                
+            }
+            .header {
+                overflow: auto;
+                background-color:#ffd700;
+                color: white;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                text-align: center;
+                z-index:10;
+            }	
+            .header-logo {
+                display: block;
+                text-align: center;
+                font-size: 70px;
+                margin: 0 auto;
+                padding: 10px 16px;
+            }
+            .header-list ul{
+                list-style-type: none;
+                text-align: center;
+                margin: 0;
+                padding: 0;
+            }
+
+            .header-list li {
+                display: inline-block;
+            }
+            .header-list li a {
+                display: block;
+                position: relative;
+                color: white;
+                text-decoration: none;
+                width: 20%;
+                padding: 10px 30px;
+                font-size: 70px;
+            }
+            .footer {
+                width: 100%;
+                overflow: auto;
+                position: fixed;
+                background-color: #ffd700;
+                bottom: 0;
+                left: 0;
+            }
+            .footer a, #event {
+                float: left;
+                text-align: center;
+                width: 25%;
+                padding: 10px 0;
+                color: white;
+                font-size: 70px;
+            }
+            /*ヘッダー、フッター用おわり*/
+            form{
+            padding: 30px 0;
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+            
+        input{
+            
+            display: block; 
+            outline: 0;
+            border: 1px solid #ffd700;
+            background-color: white;
+            opacity:　0.8;
+            width: 500px;
+            border-radius: 15px;
+            padding: 30px 15px;
+            margin: 0 auto 10px auto;
+            display: block;
+            text-align: center;
+            font-size: 50px;
+            color:#ffd700;
+            transition-duration: 0.25s;
+            font-weight: 300;
+            font-family: 'Source Sans Pro', sans-serif;
+            
+        }
+                
+       
+        input:focus{
+            background-color:#ffd700;
+            width: 700px;
+            color: white;
+            border: 2px solid white;
+        }
+        input::-webkit-input-placeholder { /* WebKit browsers */
+		    font-family: 'Source Sans Pro', sans-serif;
+			color:   #ffd700;
+		    font-weight: 300;
+	    }
+	    input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+		    font-family: 'Source Sans Pro', sans-serif;
+		     color:   #ffd700;
+		     opacity:  1;
+		    font-weight: 300;
+	    }
+	    input:-moz-placeholder { /* Mozilla Firefox 19+ */
+		    font-family: 'Source Sans Pro', sans-serif;
+		    color:   #ffd700;
+		    opacity:  1;
+		    font-weight: 300;
+	    }
+        input:-ms-input-placeholder { /* Internet Explorer 10+ */
+		    font-family: 'Source Sans Pro', sans-serif;
+		    color:   #ffd700;
+		    font-weight: 300;
+        }
+        
+        button{
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            outline: 0;
+            background-color: #ffd700;
+            border: 0;
+            padding: 30px 15px;
+            color: white;
+            border-radius: 15px;
+            width: 500px;
+            cursor: pointer;
+            font-size: 50px;
+            transition-duration: 0.25s;
+            margin: 30px auto;
+            border: 2px solid white;
+        }
+        .logs {
+            width: 100%;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .log {
+            font-size: 20px;
+            text-align: center;
+        }
+        .rest_radio {
+            width: 10%;
+        }
+        .rest {
+            margin: 0 auto 50px auto;
+        }
+        
+            
+           
+        </style>
+        
+        
+        
+        
+        
+        
+        
+    </head>
+    
+    <body>
+        
+        <div class="header">
+                
+                <div class="header-list">
+                    <ul>
+                        <li style="float: left;"><a href="/signout"><i class="fa fa-sign-out" aria-hidden="true"></i></a></li>
+                        <li class="header-logo">EATOMO</li>
+                        <li style="float: right;"><a href="/home"><i class="fa fa-user-circle-o" aria-hidden="true"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+
+
+        
+        
+        
+        <div class="main">
+         <form action ="/search_rest" method="post">
+            <input type="text" name="search_rest" placeholder="search reataurant" />
+            <button type="submit" id="login-button"><i class="fa fa-search" aria-hidden="true"></i></button>
+        </form>
+        <div class="logs">
+        <% if @response_rest.present? %>
+            <h2 >検索結果</h2>
+            <div class="log">
+            <table>
+                <thead><tr><th></th><th>img</th><th>name</th><th>address</th><th>station</th><th>budget</th></tr></thead>
+                <% @response_rest.each do |response_rest| %>
+                    <div class ="rest">
+                        <tr>
+                            <td><input class = "rest_radio" type = "radio" name = "rest"></td>
+                            <td class="img"><img src="<%= response_rest["image_url"]["shop_image1"] %>" width="100px"></td>
+                            <td class="name"><a href="<%= response_rest["url"]%>" %><%= response_rest["name"] %></a></td>
+                            <td class="address"><%= response_rest["address"].split(" ")[1] %></td>
+                            <td><%= response_rest["access"]["station"] %></td>
+                            <td><%= response_rest["budget"] %></td>
+                        </tr>
+                    </div>
+                <% end %>
+                </table>
+                <div class="toko">
+                <input type="text" name="memo" class="memo" placeholder="メモ">
+                <input type="text" name="who" class="who" placeholder="だれといった？">
+                <input type="date" name="date" class="date">
+                <button type="submit" id="login-button">投稿</button>
+                </div>
+                </div>
+        <% end %>
+        </div>
+        </div>
+              
+    <script>
+        window.onload = function() {
+            var rest;
+            $(".rest_radio").click(function() {
+                var name = $(this).parent().siblings(".name",this).text();
+                var url = $(this).parent().siblings().find('a').attr('href');
+                var img = $(this).parent().siblings().find('img').attr('src');
+                var rest = {"name": name,"url": url, "img": img};
+                console.log(JSON.stringify(rest) + "が送信用のrestに格納されています。");
+                $(".new").click(function() {
+                    var memo = $(".memo").val();
+                    var who = $(".who").val();
+                    var date = $(".date").val();
+                    $.ajax("/new",{
+                    type: "POST",
+                    data: {"memo": memo,"who": who,"date": date,"rest": rest},
+                    datatype: 'json',
+                    success: function(msg){
+        			    document.write(msg);
+           		    }
+                    });
+                    console.log(JSON.stringify(rest) + memo + who + date + "を送信しました");
+                });
+            });
+        }
+    </script>
+    
+    <div class="footer">
+              <a href="/search"><i class="fa fa-search" aria-hidden="true"></i></a>
+              <a href="/general"><i class="fa fa-clock-o" aria-hidden="true"></i></a>
+              <a href="/new"><i class="fa fa-cutlery" aria-hidden="true"></i></a>
+              <i id="event" class="fa fa-exclamation-circle" aria-hidden="true"></i>
+        
+    </div>
+    
+    
+    
+    
+    
+    </body>
+</html>

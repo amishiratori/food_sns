@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang ="ja" >
+    <head>
+        <meta charset = "UTF-8" >
+        <title>Hackathon</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <style>
+            /*ヘッダー、フッター用*/
+            @import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300);
+            body {
+                font-family: 'Source Sans Pro', sans-serif;
+            }
+            .main{
+                margin-top: 130px;
+                margin-bottom: 80px;
+                width: 100%;
+                color: #888;
+                
+            }
+            .header {
+                overflow: auto;
+                background-color:#ffd700;
+                color: white;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                text-align: center;
+                z-index:1;
+            }	
+            .header-logo {
+                display: block;
+                text-align: center;
+                font-size: 70px;
+                margin: 0 auto;
+                padding: 10px 16px;
+            }
+            .header-list ul{
+                list-style-type: none;
+                text-align: center;
+                margin: 0;
+                padding: 0;
+            }
+
+            .header-list li {
+                display: inline-block;
+            }
+            .header-list li a {
+                display: block;
+                position: relative;
+                color: white;
+                text-decoration: none;
+                width: 20%;
+                padding: 10px 30px;
+                font-size: 70px;
+            }
+            .footer {
+                width: 100%;
+                overflow: auto;
+                position: fixed;
+                background-color: #ffd700;
+                bottom: 0;
+                left: 0;
+            }
+            .footer a, #event {
+                float: left;
+                text-align: center;
+                width: 25%;
+                padding: 10px 0;
+                color: white;
+                font-size: 70px;
+            }
+            /*ヘッダー、フッター用おわり*/
+            .container {
+                width: 60%;
+                margin: 0 auto;
+                
+            }
+            
+            .user_profile {
+                width: 50%;
+                margin: 0 auto;
+                font-size: 20px;
+            }
+            .user_top{
+                width: 200px;
+                margin: 0 auto;
+                text-align: center;
+            }
+            .user_top img{
+                padding: 10px;
+                border: 2px dotted #888;
+            }
+            
+            
+            .log {
+                display: flex;
+                margin: 0 auto;
+                width: 700px;
+            }
+            .userdetail {
+                padding: 10px 10px;
+            }
+                
+            .userdetail div {
+                  position: relative;
+                  text-align: center;
+                  font-size: 15px;
+            }
+            .userdetail div:after {
+                content: '';
+                width: 100%;
+                height: 0;
+                border-bottom: 1px solid #ffd700;
+                position: absolute;
+                top: 30px;
+                left: 2.5em;
+                z-index: -1;
+            }
+            .userdetail img {
+                border-radius: 50%;
+                border: 2px solid #999999;
+            }
+            .user {
+                display: block;
+                clear: both;
+                padding: 3px 0;
+                margin: 6px 0;
+                background-color: white;
+            }
+            .detail {
+                position: relative;
+                flex-glow: 1;
+                left: 28px;
+            }
+            .detail div{
+                border: 1px solid #ffd700;
+                border-radius: 10px;
+                padding: 15px;
+                margin: 10px 0;
+                text-align: center;
+            }
+            .detail div:before{
+                content: '';
+                width: 0;
+                height: 100%;
+                border-left: 1px solid #ffd700;
+                position: absolute;
+                left: -65px;
+                z-index: -1;
+            }
+            .name {
+                
+                font-size: 20px;
+                margin: 0;
+                padding: 0 0 5px 0;
+            }
+            .memo {
+                margin: 0;
+                padding: 0;
+            }
+            
+            .calendar{
+                width: 60%;
+                margin: 0 auto;
+            }
+            .calendar_header{
+                margin-left: 30px;
+            }
+            .calendar_header form{
+                float: left;
+            }
+             .date{
+                float: left;
+            }
+            .empty{
+                clear: both;
+            }
+            
+          
+
+           
+        </style>
+    </head>
+        <body>
+            
+          <div class="header">
+                
+                <div class="header-list">
+                    <ul>
+                        <li style="float: left;"><a href="/signout"><i class="fa fa-sign-out" aria-hidden="true"></i></a></li>
+                        <li class="header-logo">EATOMO</li>
+                        <li style="float: right;"><a href="/home"><i class="fa fa-user-circle-o" aria-hidden="true"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+
+
+        
+        
+        <div class="main">
+            <div class="container">
+        <div class="user_profile">
+            <div class="user_top">
+        <img src="<%= current_user.user_img %>" width="150px" height="auto">
+        <br>
+       <p> <%= current_user.name %>:<%= current_user.user_id %> </p>
+        <div class="a">
+        <a href="/user/<%= current_user.id %>/likes">いいね</a>
+        <a href="/user/<%= current_user.id %>/friends">フォロー</a>
+        </div>
+        </div>
+        <div class="calendar">
+        <div class="calendar_header">
+        <form action="/calendar_prev" method="post" >
+            <input type = "submit" value="←" >
+        </form>
+        
+        <div class="date"><%= @year %>/<%= @month %></div>
+        <form action="/calendar_next" method="post">
+            <input type ="submit" value="→" >
+        </form>
+        </div>
+        <div class="empty"></div>
+        <%= make_calendar(@year , @month) %>
+        </div>
+        </div>
+        <% if current_user.contributions.present? %>
+            <% contributions = current_user.contributions.order("created_at desc") %>
+            <% contributions.each do |contribution| %>
+                <div class="log">
+                    <div class="userdetail">
+                    <div>
+                    <a href = "/user/<%= current_user.id %>" ><img src="<%= current_user.user_img %>" width="50px" height="auto">
+                    <p class="user"><%= current_user.name %> </p></a>
+                    </div>
+                </div>
+                <div class="detail">
+                    <div>
+                    <p class="name"><a href="<%= contribution.rest_url %>"><%= contribution.rest_name %></a></p>
+                    <img src="<%= contribution.rest_img %>" >
+                    <p class="memo">メモ:<%= contribution.memo %></p>
+                    <form action="/new/like/<%= contribution.id %>" method="post">
+                        <input type="submit" value="like" class="like">
+                    </form>
+                    <a href="/contribution/<%= contribution.id %>/like"><%= contribution.likes.all.size %></a>
+                    </div>
+                </div>
+                
+                </div>
+            <% end %>
+        <% else %>
+            <p>ログはありません</p>
+        <% end %>
+        </div>
+        </div>
+        
+    <div class="footer">
+              <a href="/search"><i class="fa fa-search" aria-hidden="true"></i></a>
+              <a href="/general"><i class="fa fa-clock-o" aria-hidden="true"></i></a>
+              <a href="/new"><i class="fa fa-cutlery" aria-hidden="true"></i></a>
+              <i id="event" class="fa fa-exclamation-circle" aria-hidden="true"></i>
+        
+    </div>
+    </body>
+</html>

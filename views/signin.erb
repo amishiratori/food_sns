@@ -1,0 +1,142 @@
+<! DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>Hackathon</title>
+    <style>
+        @import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300);
+        *{
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-weight: 300;
+        }
+        body{
+            font-family: 'Source Sans Pro', sans-serif;
+            color: white;
+        }
+        .wrapper{
+	        background:#ffd700;
+            
+	
+	        position: absolute;
+	        top: 30%;
+	        left: 0;
+	        width: 100%;
+	        height: 800px;
+    	    margin-top: -200px;
+	        overflow: hidden;
+	        
+        }
+        .container{
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 100px 0;
+            height: 800px;
+            text-align: center;
+        }
+        
+        h1{
+            font-size: 70px;
+            font-weight: 300;
+            }
+        
+        form{
+            padding: 30px 0;
+            position: relative;
+            z-index: 2;
+        }
+            
+        input{
+            
+            display: block; 
+            outline: 0;
+            border: 1px solid white;
+            background-color: white;
+            opacity:　0.8;
+            width: 500px;
+            border-radius: 15px;
+            padding: 30px 15px;
+            margin: 0 auto 10px auto;
+            display: block;
+            text-align: center;
+            font-size: 50px;
+            color:#ffd700;
+            transition-duration: 0.25s;
+            font-weight: 300;
+            font-family: 'Source Sans Pro', sans-serif;
+            
+        }
+                
+       
+        input:focus{
+            background-color:#ffd700;
+            width: 700px;
+            color: white;
+            border: 2px solid white;
+        }
+        input::-webkit-input-placeholder { /* WebKit browsers */
+		    font-family: 'Source Sans Pro', sans-serif;
+			color:   #ffd700;
+		    font-weight: 300;
+	    }
+	    input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+		    font-family: 'Source Sans Pro', sans-serif;
+		     color:   #ffd700;
+		     opacity:  1;
+		    font-weight: 300;
+	    }
+	    input:-moz-placeholder { /* Mozilla Firefox 19+ */
+		    font-family: 'Source Sans Pro', sans-serif;
+		    color:   #ffd700;
+		    opacity:  1;
+		    font-weight: 300;
+	    }
+        input:-ms-input-placeholder { /* Internet Explorer 10+ */
+		    font-family: 'Source Sans Pro', sans-serif;
+		    color:   #ffd700;
+		    font-weight: 300;
+        }
+        
+        button{
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            outline: 0;
+            background-color: #ffd700;
+            border: 0;
+            padding: 30px 15px;
+            color: white;
+            border-radius: 15px;
+            width: 500px;
+            cursor: pointer;
+            font-size: 50px;
+            transition-duration: 0.25s;
+            margin: 30px auto;
+            border: 2px solid white;
+        }
+                
+        
+        
+            
+    </style>
+</head>
+
+<body>
+<div class="wrapper">
+    <div class="container">
+    <h1>Welcome</h1>
+    <form action="/signin" method="POST">
+            <input name="user_id" placeholder="UserID"><br>
+            <input name="password" type="password" placeholder="Password"><br>
+            <button type="submit" id="login-button">Login</button>
+    </form>
+    <% if @errors.present? %>
+        <% @errors.each do |error| %>
+            <p><%= error %></p>
+        <% end %>
+    <% end %>
+    </div>
+</div>
+
+</body>
