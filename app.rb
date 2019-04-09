@@ -191,7 +191,7 @@ post '/search_rest' do
   search_rest = params[:search_rest]
   uri = URI('http://api.gnavi.co.jp/RestSearchAPI/20150630/')
   uri.query = URI.encode_www_form({
-    keyid: '52c3de43f5d8008176abf9c3fc643f3c',
+    keyid: ENV['GNAVI_KEY'],
     format: 'json',
     freeword: search_rest,
     hit_per_page: 50,
@@ -271,10 +271,9 @@ end
 
 #新規いいねフェーズ
 post '/new/like/:id' do
-  if !current_user.likes.find_by(contribution_id: Contribution.find_by(id: params[:id]),user_id: User.find_by(id: Contribution.find_by(id: params[:id]).user_id)).present?
+  if !current_user.likes.find_by(contribution_id: Contribution.find_by(id: params[:id]).id).present?
     current_user.likes.create({
-        contribution_id: Contribution.find_by(id: params[:id]).id,
-        user_id: User.find_by(id: Contribution.find_by(id: params[:id]).user_id)
+        contribution_id: Contribution.find_by(id: params[:id]).id
       })
   end
     redirect '/general'

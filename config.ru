@@ -5,9 +5,9 @@ require './app'
 
 
 Cloudinary.config do |config|
-  config.cloud_name = "dg61muele"
-  config.api_key    = "712765872288194"
-  config.api_secret = "XZ7jjADT4CZBKj6MbqpEzGC2X4c"
+  config.cloud_name = ENV['CLOUD_NAME']
+  config.api_key    = ENV['CLOUDINARY_API_KEY']
+  config.api_secret = ENV['CLOUDINARY_API_SECRET']
 end
 
 run Sinatra::Application
